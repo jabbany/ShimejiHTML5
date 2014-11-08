@@ -1,0 +1,18 @@
+{
+  "name": "ShimejiHTML5",
+  "version": "0.1.0",
+  "description": "Shimeji Mascot for Web Pages",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jabbany/ShimejiHTML5.git"
+  },
+  "author": "Jim Chen <knh.jabbany@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jabbany/ShimejiHTML5/issues"
+  },
+  "homepage": "https://github.com/jabbany/ShimejiHTML5"
+}

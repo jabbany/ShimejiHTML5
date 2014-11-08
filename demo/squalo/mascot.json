@@ -1,0 +1,76 @@
+{
+	"name":"Squalo",
+	"license":"unknown",
+	"baseUrl":"squalo/",
+	"actions":{
+		"stand":[
+			{
+				"src":"shime1.png",
+				"anchor":[64,128],
+				"move":{"x":0, "y":0},
+				"duration":25
+			}
+		],
+		"walk":[
+			{
+				"src":"shime1.png",
+				"anchor":[64,128],
+				"move":{"x":-20, "y": 0},
+				"duration":300
+			},
+			{
+				"src":"shime2.png",
+				"anchor":[64,128],
+				"move":{"x":-20, "y": 0},
+				"duration":300
+			},
+			{
+				"src":"shime1.png",
+				"anchor":[64,128],
+				"move":{"x":-20, "y": 0},
+				"duration":300
+			},
+			{
+				"src":"shime3.png",
+				"anchor":[64,128],
+				"move":{"x":-20, "y": 0},
+				"duration":300
+			}
+		],
+		"shift":[
+			{"src":"shime25.png","anchor":[64,128],"move":{"x":0, "y":0}, "duration":800},
+			{"src":"shime25.png","anchor":[64,128],"move":{"x":-10, "y":0}, "duration":200},
+			{"src":"shime23.png","anchor":[64,128],"move":{"x":-10, "y":0}, "duration":200},
+			{"src":"shime24.png","anchor":[64,128],"move":{"x":-10, "y":0}, "duration":200},
+			{"src":"shime24.png","anchor":[64,128],"move":{"x":0, "y":0}, "duration":800},
+			{"src":"shime24.png","anchor":[64,128],"move":{"x":-20, "y":0}, "duration":200},
+			{"src":"shime23.png","anchor":[64,128],"move":{"x":-20, "y":0}, "duration":200},
+			{"src":"shime25.png","anchor":[64,128],"move":{"x":-20, "y":0}, "duration":200}		
+		],
+		"sit_sing":[
+			{"src":"shime31.png","anchor":[64,128],"move":{"x":0, "y":0}, "duration":250},
+			{"src":"shime32.png","anchor":[64,128],"move":{"x":0, "y":0}, "duration":750},
+			{"src":"shime31.png","anchor":[64,128],"move":{"x":0, "y":0}, "duration":250},
+			{"src":"shime33.png","anchor":[64,128],"move":{"x":0, "y":0}, "duration":750}	
+		],
+		"jump":[
+			{"src":"shime22.png","anchor":[64,128],"move":{"x":0, "y":0}, "duration":200}
+		],
+		"fall":[
+			
+		],
+		"climb":[
+			{"src":"shime14.png","anchor":[64,128],"move":{"x":0, "y":0}, "duration":800},
+			{"src":"shime14.png","anchor":[64,128],"move":{"x":0, "y":-10}, "duration":200},
+			{"src":"shime12.png","anchor":[64,128],"move":{"x":0, "y":-10}, "duration":200},
+			{"src":"shime13.png","anchor":[64,128],"move":{"x":0, "y":-10}, "duration":200},
+			{"src":"shime13.png","anchor":[64,128],"move":{"x":0, "y":0}, "duration":800},
+			{"src":"shime13.png","anchor":[64,128],"move":{"x":0, "y":-20}, "duration":200},
+			{"src":"shime12.png","anchor":[64,128],"move":{"x":0, "y":-20}, "duration":200},
+			{"src":"shime14.png","anchor":[64,128],"move":{"x":0, "y":-20}, "duration":200}
+		]
+	},
+	"behavior":{
+	
+	}
+}
