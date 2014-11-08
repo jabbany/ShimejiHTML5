@@ -1,0 +1,21 @@
+* {
+	font-family: sans-serif;
+	color: #fff;
+}
+
+body{
+	background-color:#222;
+}
+
+div.btn{
+	border: 1px solid #fff;
+	padding: 5px;
+	margin: 2px;
+	cursor:pointer;
+	float:left;
+	background-color: #666;
+}
+div.btn.on{
+	background-color: #88D;
+	color:#000;
+}

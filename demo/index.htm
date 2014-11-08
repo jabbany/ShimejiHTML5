@@ -4,81 +4,159 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta http-equiv="X-UA-Compatible" value="IE=9">
 	<title>Shimeji HTML5 Demo</title>
-
+	
+	<link rel="stylesheet" href="style.css"/>
 	<!-- Library -->
 	<link rel="stylesheet" href="../build/shimeji.css"/>
 	<script type="text/javascript" src="../build/shimeji.js"></script>
+	<script type="text/javascript" src="../src/behaviors/randomWalk.js"></script>
 </head>
 <body>
 	<div id="main" class="container">
 		<h1>Shimeji Web Library Demonstration</h1>
 		<p>
-			<a href="#" class="btn" id="btn_reverse" style="color:#A00">Reverse</a>
-			<a href="#" class="btn" id="btn_walk">Walk</a>
-			<a href="#" class="btn" id="btn_climb">Climb</a>
-			<a href="#" class="btn" id="btn_stand">Stand</a>
+			<div class="btn" id="btn_reverse_hori">Reverse Horizontal</div>
+			<div class="btn" id="btn_reverse_vert">Reverse Vertical</div>
+			<div class="btn" id="btn_reverse_motion">Reverse Motion</div>
 		</p>
-		<div id="squalo" class="shimeji"></div>
-		<div id="zbox" style="position:fixed;top:200px;left:200px;width:600px;height:600px;border:1px dashed #000;"></div>
+		<p>
+			<div class="btn" id="btn_walk">Walk</div>
+			<div class="btn" id="btn_climb">Climb</div>
+			<div class="btn" id="btn_stand">Stand</div>
+			<div class="btn" id="btn_fall">Drop</div>
+		</p>
+		<p>
+			<div class="btn" id="btn_new">New</div>
+		</p>
+		<div id="squalo1" class="shimeji"></div>
+		<div id="zbox" style="position:fixed;top:200px;left:200px;width:600px;height:600px;border:1px dashed #fff;"></div>
 	</div>
 	<script>
 		var $ = function(e){return document.getElementById(e);};
-		var loadShimeji = function (config){
+		var createSqualo = function (config, x, y){
 			var squalo = new Shimeji(config);
-			squalo.init($("squalo"), 500, 700);
+			
+			// Create div
+			var sqdiv = document.createElement("div");
+			sqdiv.className = "shimeji";
+			$("main").appendChild(sqdiv);
+			squalo.init(sqdiv, x, y);
 			var sq = [$("zbox")];
 			squalo.makeEnvironment(sq);
 			squalo.behavior("zbox", function(what, env){
 				if(what === "exit_left"){
 					squalo.place(env.left + 1, squalo._y);
 					squalo.cancelAct();
-					squalo.act("climb",4);
+					randomWalk(squalo, {
+						"_states":["climb_up", "climb_down"],
+						"climb_up":{"name":"climb", "repeat":1, "prob":0.8},
+						"climb_down":{"name":"climb", "repeat":1, "revM":1, "prob":0.2}
+					});
 				}else if (what === "exit_right"){
 					squalo.place(env.right - 1, squalo._y);
 					squalo.cancelAct();
-					squalo.act("climb",4, true);
+					randomWalk(squalo, {
+						"_states":["climb_up", "climb_down"],
+						"climb_up":{"name":"climb", "repeat":1, "revH":true, "prob":0.8},
+						"climb_down":{"name":"climb", "repeat":1, "revH":true, "revM":true, "prob":0.2}
+					});
 				}else if (what === "exit_top"){
 					// Decide which edge we are closer to
 					if(Math.abs(squalo._x - env.left) < Math.abs(squalo._x - env.right)){
 						squalo.place(squalo._x, env.top + 1);
 						squalo.cancelAct();
-						squalo.act("walk",2,true,false,function(){
+						squalo.act("walk",2,true,false,false, function(){
 							squalo.place(squalo._x, squalo._y + 10);
 							squalo.act("sit_sing",1,true);
+							squalo.act("fall",40);
 						});
 					}else{
 						squalo.place(squalo._x, env.top + 1);
 						squalo.cancelAct();
-						squalo.act("walk",2,false,false,function(){
+						squalo.act("walk",2,false,false,false, function(){
 							squalo.place(squalo._x, squalo._y + 10);
 							squalo.act("sit_sing",1);
+							squalo.act("fall",40);
+						});
+					}
+				}else if (what === "exit_bottom"){
+					// Decide which edge we are closer to
+					if(Math.abs(squalo._x - env.left) < Math.abs(squalo._x - env.right)){
+						squalo.place(squalo._x, env.bottom - 1);
+						squalo.cancelAct();
+						squalo.act("land",1,false,false,false);
+						squalo.act("stand",1,false,false,false, function(){
+							randomWalk(squalo, {
+								"_states":["stand", "walk_l", "walk_r", "sleep"],
+								"stand":{"name":"stand", "repeat":1, "prob":0.4},
+								"sleep":{"name":"sleep", "repeat":1, "prob":0.1},
+								"walk_l":{"name":"walk", "repeat":1, "prob":0.25},
+								"walk_r":{"name":"walk", "repeat":1, "revH":1, "prob":0.25}
+							});
+						});
+					}else{
+						squalo.place(squalo._x, env.bottom - 1);
+						squalo.cancelAct();
+						squalo.act("land",1,true,false,false);
+						squalo.act("stand",1,true,false,false, function(){
+							randomWalk(squalo, {
+								"_states":["stand", "walk_l", "walk_r", "sleep"],
+								"stand":{"name":"stand", "repeat":1, "prob":0.4},
+								"sleep":{"name":"sleep", "repeat":1, "prob":0.1},
+								"walk_l":{"name":"walk", "repeat":1, "prob":0.25},
+								"walk_r":{"name":"walk", "repeat":1, "revH":1, "prob":0.25}
+							});
 						});
 					}
 				}
 				console.log([what, env, "Yo1"]);
 			});
-			squalo.act("stand");
+			squalo.act("fall", 40);
+			
 			// Allow debug
-			window.squalo = squalo;
+			if(!window.squalos){
+				window.squalos = [squalo];
+			}else{
+				window.squalos.push(squalo);
+			}
+			window.squalo = squalo; // Save last one
+		};
+		var loadShimeji = function (config){
+			createSqualo(config, 500, 500);
 		};
 		window.addEventListener("load", function(){
 			var xhr = new XMLHttpRequest();
 			xhr.onreadystatechange = function(){
 				if(xhr.readyState === 4){
-					loadShimeji(JSON.parse(xhr.responseText));
-					var isReversed = false;
-					$("btn_reverse").addEventListener("click", function(){
-						isReversed = !isReversed;
-						$("btn_reverse").style.color= isReversed ? "#0A0" : "#A00";
+					var conf = JSON.parse(xhr.responseText);
+					loadShimeji(conf);
+					var isRHori = false, isRVert = false, isRMoti = false;
+					$("btn_reverse_hori").addEventListener("click", function(){
+						isRHori = !isRHori;
+						$("btn_reverse_hori").className = isRHori ? "btn on" : "btn";
+					});
+					$("btn_reverse_vert").addEventListener("click", function(){
+						isRVert = !isRVert;
+						$("btn_reverse_vert").className = isRVert ? "btn on" : "btn";
+					});
+					$("btn_reverse_motion").addEventListener("click", function(){
+						isRMoti = !isRMoti;
+						$("btn_reverse_motion").className= isRMoti ? "btn on" : "btn";
 					});
 					$("btn_walk").addEventListener("click", function(){
-						squalo.act("walk",1,isReversed);
+						squalo.act("walk",1,isRHori, isRVert, isRMoti);
 					});
 					$("btn_climb").addEventListener("click", function(){
-						squalo.act("climb",1,isReversed);
+						squalo.act("climb",1,isRHori, isRVert, isRMoti);
 					});
 					$("btn_stand").addEventListener("click", function(){
-						squalo.act("stand",1,isReversed);
+						squalo.act("stand",1,isRHori, isRVert, isRMoti);
+					});
+					$("btn_fall").addEventListener("click", function(){
+						squalo.act("fall",40,isRHori, isRVert, isRMoti);
+					});
+					$("btn_new").addEventListener("click", function(){
+						createSqualo(conf, 500 + Math.floor(Math.random() * 100), 500 + Math.floor(Math.random() * 100));
 					});
 				};
 			};

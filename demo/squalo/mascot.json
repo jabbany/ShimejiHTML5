@@ -3,12 +3,20 @@
 	"license":"unknown",
 	"baseUrl":"squalo/",
 	"actions":{
+		"sleep":[
+			{
+				"src":"shime21.png",
+				"anchor":[64,128],
+				"move":{"x":0, "y":0},
+				"duration":2500
+			}
+		],
 		"stand":[
 			{
 				"src":"shime1.png",
 				"anchor":[64,128],
 				"move":{"x":0, "y":0},
-				"duration":25
+				"duration":250
 			}
 		],
 		"walk":[
@@ -57,7 +65,26 @@
 			{"src":"shime22.png","anchor":[64,128],"move":{"x":0, "y":0}, "duration":200}
 		],
 		"fall":[
-			
+			{
+				"src":"shime4.png",
+				"anchor":[64,128],
+				"move":{"x":0, "y":40},
+				"duration":100
+			}
+		],
+		"land":[
+			{
+				"src":"shime18.png",
+				"anchor":[64,128],
+				"move":{"x":0, "y":0},
+				"duration":200
+			},
+			{
+				"src":"shime19.png",
+				"anchor":[64,128],
+				"move":{"x":0, "y":0},
+				"duration":200
+			}
 		],
 		"climb":[
 			{"src":"shime14.png","anchor":[64,128],"move":{"x":0, "y":0}, "duration":800},

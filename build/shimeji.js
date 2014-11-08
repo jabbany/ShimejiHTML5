@@ -114,20 +114,14 @@ var Shimeji = (function(){
 		this.container.style.transition = "top " + posture.duration + "ms, left " + posture.duration + "ms linear";
 		this.place(this._x, this._y);
 	};
-	Shimeji.prototype.act = function(action, repeat, reverseH, reverseV, onEnd){
+	Shimeji.prototype.act = function(action, repeat, reverseH, reverseV, reverseM, onEnd){
 		if(typeof repeat !== "number"){
 			repeat = 1;
 		}
 		if(this.config.actions[action]){
-			if(!reverseV && !reverseH){
+			if(!reverseM){
 				for(var r = 0; r < repeat; r++){
 					for(var i = 0; i < this.config.actions[action].length; i++){
-						this.actionQueue.push(this.config.actions[action][i]);
-					};
-				}
-			}else{
-				for(var r = 0; r < repeat; r++){
-					for(var i = this.config.actions[action].length - 1; i >= 0; i--){
 						var revact = {};
 						for(var prop in this.config.actions[action][i]){
 							if(this.config.actions[action][i].hasOwnProperty(prop)){
@@ -136,6 +130,17 @@ var Shimeji = (function(){
 						}
 						revact["reverseVert"] = reverseV;
 						revact["reverseHori"] = reverseH;
+						this.actionQueue.push(revact);
+					};
+				}
+			}else{
+				for(var r = 0; r < repeat; r++){
+					for(var i = this.config.actions[action].length - 1; i >= 0; i--){
+						var revact = JSON.parse(JSON.stringify(this.config.actions[action][i]));
+						revact["reverseVert"] = reverseV;
+						revact["reverseHori"] = reverseH;
+						revact.move.x = -revact.move.x;
+						revact.move.y = -revact.move.y;
 						this.actionQueue.push(revact);
 					};
 				}
